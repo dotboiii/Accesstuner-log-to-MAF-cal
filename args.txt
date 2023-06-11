@@ -1,0 +1,34 @@
+Abs. Pressure
+Accel. Pedal Pos.
+Actual AFR
+Baro. Pressure
+Battery Voltage
+Boost
+Boost Air Temp
+Calculated Load
+Coolant Temp
+Engine Speed
+Equiv. Ratio
+Fan Duty
+Fuel Inj. Amt.
+HPFP Actual Press.
+HPFP Desired Press.
+HPFP Sensor Voltage
+Inj. Duty Cycle
+Inj. Pulse Width
+Intake Temp.
+Intake Valve Adv.
+Knock Retard
+Long Term FT
+MAF Voltage
+Mass Airflow (g/s)
+Scalable Calc. Load A
+Scalable Calc. Load B
+Scalable Calc. Load C
+Scalable Calc. Load D
+Short Term FT
+Spark Adv.
+Throttle Duty Cyc.
+Throttle Position
+Vehicle Speed
+Wastegate Duty
