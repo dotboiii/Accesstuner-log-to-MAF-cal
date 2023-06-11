@@ -1,15 +1,9 @@
 import csv
-import scan
 import numpy as np 
 import matplotlib.pyplot as plt 
-import math
 from scipy.optimize import curve_fit
 import PySimpleGUI as sg
 from scan import open_log_file, search_column, column_to_list
-import data
-import os
-
-
 
 def Generate_Maf_cal(selected_log, headers_file_path):
     line_array, headers = open_log_file(selected_log)

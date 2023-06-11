@@ -1,12 +1,5 @@
-import csv
-import scan
 import numpy as np 
-import matplotlib.pyplot as plt 
-import math
-from scipy.optimize import curve_fit
 import PySimpleGUI as sg
-from scan import open_log_file, search_column, column_to_list
-import data
 import os
 from Mafcal import Generate_Maf_cal
 
