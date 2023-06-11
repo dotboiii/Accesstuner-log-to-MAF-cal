@@ -6,20 +6,41 @@ import math
 from scipy.optimize import curve_fit
 import PySimpleGUI as sg
 from scan import open_log_file, search_column, column_to_list
+import data
+import os
 
+# Get the current directory of the Python program
+current_directory = os.path.dirname(os.path.abspath(__file__))
+# Construct the file path to the 'headers.file' relative to the current directory
+headers_file_path = os.path.join(current_directory, 'data', 'headers.file')
 
-#Creating GUI
+# Define the layout of the window
+layout = [
+    [sg.Text("Select Log FIle:"), sg.Input(key="-IN-"), sg.FileBrowse(file_types=(("CSV File", "*.csv"),))],
+    [sg.Exit(), sg.Button("OK")],
+]
 
+# Create the window with resizable flag set to True
+window = sg.Window("Log To MAF indev-0.1", layout, resizable=True)
 
-
-
-
+while True:
+    event, values = window.read()
+    if event == sg.WINDOW_CLOSED:
+        break
+    if event == "OK":
+        selected_log = values["-IN-"]
+        break
+    if event == "Exit":
+        exit()
+        
+        
+        
 #running the open function to return the array of headers
-selected_log = 'C:/VS code/Python projects/Accesstun log tester/log.csv'
+#selected_log = 'C:/VS code/Python projects/Accesstun log tester/log.csv'
 line_array, headers = open_log_file(selected_log)
 
 #opens the dictionary file, dictionary must contain all headers in txt seperated by newline.
-with open('C:/VS code/Python projects/Accesstun log tester/headers.file', 'r') as header_dictionary_file:
+with open(headers_file_path, 'r') as header_dictionary_file:
     header_dictionary = csv.reader(header_dictionary_file)
     #loop searches for which index each header is, references dictionary file to know what to find.
     #each dictonary file read is a list with the string in the index 1, ignores index 0.
