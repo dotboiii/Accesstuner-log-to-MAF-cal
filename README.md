@@ -1,11 +1,6 @@
 # Accesstuner-log-to-MAF-cal
-|==============================================================================================|
+
 | USE THIS SOFTWARE AT YOUR OWN RISK, YOU ARE RESPONSIBLE FOR TUNING / MODIFYING YOUR OWN CAR! |
-|==============================================================================================|
-
-
-!!This project is in an alpha stage right now. Hardly functions outside of editing the source to feed in a log file. Feel free to use some of this code if you are interested.!!
-More will be added in the future, currently implementing a GUI
 
 
 TLDR import a MAF calibration log recorded by accesstuner studio or a accessport, the software then tries to create a calibration for you.
