@@ -1,10 +1,13 @@
 import csv
 import scan
 from scan import open_log_file, search_column
+import os
 
-logfile = 'C:/VS code/Python projects/Accesstun log tester/datalog6.csv'
-header_dictionary_file = 'C:/VS code/Python projects/Accesstun log tester/headers.file'
-headeer_blacklist_file = 'C:/VS code/Python projects/Accesstun log tester/headersblacklist.file'
+# Get the current directory of the Python program
+current_directory = os.path.dirname(os.path.abspath(__file__))
+# Construct the file path to the 'headers.file' relative to the current directory
+header_dictionary_file = os.path.join(current_directory, 'data', 'headers.file')
+headeer_blacklist_file = os.path.join(current_directory, 'data', 'headersblacklist.file')
 
 def add_to_dictionary(selected_log):
     line_array, headers = open_log_file(selected_log)
@@ -42,8 +45,4 @@ def dictionary_clean():
         for line in dictionaryfileclear:
             if not line.isspace():
                 dictionaryfileclear.write(line)
-
-
-add_to_dictionary(logfile)
-dictionary_clean()
     
