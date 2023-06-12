@@ -31,9 +31,10 @@ while True:
     if event == gui.WINDOW_CLOSED:
         exit() 
     if event == "Generate MAF Calibration":
-        if selected_log == '0':
+        if values["-IN-"] == '':
             gui.popup("Please select a log file!")
         else:
+            selected_log = values["-IN-"]
             try:
                 CorrectiveFunction, x_data, y_data, x, y_fit, Maf_Cor_Table, Correcttion_List = Generate_Maf_cal(selected_log, headers_file_path, Maf_voltage_table)
                 window["-FORMULA-"].update(CorrectiveFunction)
