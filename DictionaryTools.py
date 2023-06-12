@@ -1,6 +1,6 @@
 import csv
 import scan
-from scan import open_log_file, search_column
+from scan import open_csv, search_column
 import os
 
 # Get the current directory of the Python program
@@ -10,7 +10,7 @@ header_dictionary_file = os.path.join(current_directory, 'data', 'headers.file')
 headeer_blacklist_file = os.path.join(current_directory, 'data', 'headersblacklist.file')
 
 def add_to_dictionary(selected_log):
-    line_array, headers = open_log_file(selected_log)
+    line_array, headers = open_csv(selected_log)
     with open(header_dictionary_file, 'a') as dictionaryfile:
         for newheader in headers:
             dictionaryfile.write("%s\n" % newheader)

@@ -3,10 +3,11 @@ import numpy as np
 import matplotlib.pyplot as plt 
 from scipy.optimize import curve_fit
 import PySimpleGUI as sg
-from scan import open_log_file, search_column, column_to_list
+from scan import open_csv, search_column, column_to_list, csv_to_list
+import math
 
-def Generate_Maf_cal(selected_log, headers_file_path):
-    line_array, headers = open_log_file(selected_log)
+def Generate_Maf_cal(selected_log, headers_file_path, Maf_voltage_table):
+    line_array, headers = open_csv(selected_log)
     #opens the dictionary file, dictionary must contain all headers in txt seperated by newline.
     with open(headers_file_path, 'r') as header_dictionary_file:
         header_dictionary = csv.reader(header_dictionary_file)
@@ -63,22 +64,23 @@ def Generate_Maf_cal(selected_log, headers_file_path):
     # Calculate the corresponding y values using the optimized parameters
     y_fit = exponential_func(x, a_opt, b_opt, c_opt)
 
+    Maf_Cor_Table = []
     print(f"y = {a_opt} * exp(-{b_opt} * x) + {c_opt}")
+    CorrectiveFunction = f"y = {a_opt} * exp(-{b_opt} * x) + {c_opt}"
     
+    a_opt_float = float(a_opt)
+    b_opt_float = float(b_opt) 
+    c_opt_float = float(c_opt)
+
+    Volt_list = csv_to_list(Maf_voltage_table)
+    print(Volt_list)
     
+    Volt_list_float = []
+    for string in Volt_list:
+        Volt_list_float.append(float(string))
     
-    # Plot the original data points and the fitted curve
-    plt.scatter(x_data, y_data, color='red', label='Data Points')
-    #plt.scatter(MAFV,MAF, color='purple', label='Original')
-    plt.plot(x, y_fit, 'b-', label='Fitted Curve')
+    Correcttion_List = [a_opt_float * math.exp(-b_opt_float * x) + c_opt_float for x in Volt_list_float]
+    print(Correcttion_List)
 
-    # Set the labels and title
-    plt.xlabel('x')
-    plt.ylabel('y')
-    plt.title('Curve Fitting with Fitted Curve')
-
-    # Display the legend
-    plt.legend()
-
-    # Show the plot
-    plt.show()
+        
+    return CorrectiveFunction, x_data, y_data, x, y_fit, Maf_Cor_Table, Correcttion_List

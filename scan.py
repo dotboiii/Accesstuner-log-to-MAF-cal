@@ -1,7 +1,7 @@
 import csv
 
 #opens the log file, returns the entire file and only the headers as two objects.
-def open_log_file(selected_log):
+def open_csv(selected_log):
     with open(selected_log, 'r') as csv_file:
         csv_reader = csv.reader(csv_file)
         line_array = []
@@ -9,6 +9,17 @@ def open_log_file(selected_log):
             line_array.append(csvdata)
         headers = line_array[0]
         return line_array, headers
+    
+def csv_to_list(selected_file):
+    csv_list = []
+    flat_list = []
+    with open(selected_file, 'r') as csv_file:
+        csv_data = csv.reader(csv_file)
+        for row in csv_data:
+            csv_list.append(row)
+        for sublist in csv_list:
+            flat_list.extend(sublist)
+        return flat_list
 
 #Searches for an item in an array, input the string and which array to search, returns the index.
 def search_column(search_item = '', dataset = []):
@@ -27,7 +38,7 @@ def column_to_list(selected_log, index):
     return columndata
 
 def search_all_headers(filename):
-    line_array, headers = open_log_file(filename)
+    line_array, headers = open_csv(filename)
     with open(filename, 'r') as header_dictionary_file:
         header_dictionary = csv.reader(header_dictionary_file)
     header_index_array = []
