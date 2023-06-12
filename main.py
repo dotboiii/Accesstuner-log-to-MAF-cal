@@ -22,24 +22,38 @@ layout = [
     [sg.Button("Generate MAF Calibration")],
     [sg.Button("Copy to clipboard!")],
     [sg.Button("Show Plot")],
+    [sg.Text("Formula Generated:"), sg.Text(key="-FORMULA-")],
 ]
 
 # Create the window with resizable flag set to True
-window = sg.Window("Log To MAF indev-0.1", layout, resizable=True)
+window = sg.Window("Log To MAF alpha 1.0", layout, resizable=True)
 
 while True:
     event, values = window.read()
     if event == sg.WINDOW_CLOSED:
         exit() 
     if event == "Generate MAF Calibration":
-        selected_log = values["-IN-"]
-        CorrectiveFunction, x_data, y_data, x, y_fit, Maf_Cor_Table, Correcttion_List = Generate_Maf_cal(selected_log, headers_file_path, Maf_voltage_table)
+        try:
+            selected_log = values["-IN-"]
+        except:
+            sg.popup("Please select a log file!")
+        try:
+            CorrectiveFunction, x_data, y_data, x, y_fit, Maf_Cor_Table, Correcttion_List = Generate_Maf_cal(selected_log, headers_file_path, Maf_voltage_table)
+            window["-FORMULA-"].update(CorrectiveFunction)
+        except:
+            sg.popup("Error occured, please check the log file and try again, if the problem persists across multiple logs please contact the developer.")
     if event == "Show Plot":
-        draw_figure(x_data, y_data, x, y_fit)
+        try:
+            draw_figure(x_data, y_data, x, y_fit)
+        except:
+            sg.popup("Internal error, enter in a log first? log may be too long, if else please contact the developer.")
     if event == "Copy to clipboard!":
         
-        for i in range(len(Correcttion_List)):
-            if Correcttion_List[i] < 0:
-                Correcttion_List[i] = 0
-        Unpack_Clipboard = ",".join(str(x) for x in Correcttion_List)
-        pyperclip.copy(Unpack_Clipboard)
+        try:
+            for i in range(len(Correcttion_List)):
+                if Correcttion_List[i] < 0:
+                    Correcttion_List[i] = 0
+            Unpack_Clipboard = ",".join(str(x) for x in Correcttion_List)
+            pyperclip.copy(Unpack_Clipboard)
+        except:
+            sg.popup("Unable to copy to the clipboard. Make sure you have generated a MAF calibration first.")
