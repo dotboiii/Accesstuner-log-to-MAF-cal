@@ -1,8 +1,6 @@
-import numpy as np 
-import PySimpleGUI as sg
+import PySimpleGUI as gui
 import os
-from Mafcal import Generate_Maf_cal
-import matplotlib.backends.backend_tkagg
+from mafcal import Generate_Maf_cal
 from draw import draw_figure
 import pyperclip
 
@@ -17,36 +15,35 @@ selected_log = '0'
 
 # Define the layout of the window
 layout = [
-    [sg.Text("Select Log FIle:"), sg.Input(key="-IN-"), sg.FileBrowse(file_types=(("CSV File", "*.csv"),))],
-    [sg.Canvas(key="-CANVAS-")],
-    [sg.Button("Generate MAF Calibration")],
-    [sg.Button("Copy to clipboard!")],
-    [sg.Button("Show Plot")],
-    [sg.Text("Formula Generated:"), sg.Text(key="-FORMULA-")],
+    [gui.Text("Select Log FIle:"), gui.Input(key="-IN-"), gui.FileBrowse(file_types=(("CSV File", "*.csv"),))],
+    [gui.Canvas(key="-CANVAS-")],
+    [gui.Button("Generate MAF Calibration")],
+    [gui.Button("Copy to clipboard!")],
+    [gui.Button("Show Plot")],
+    [gui.Text("Formula Generated:"), gui.Text(key="-FORMULA-")],
 ]
 
 # Create the window with resizable flag set to True
-window = sg.Window("Log To MAF alpha 1.0", layout, resizable=True)
+window = gui.Window("Log To MAF alpha 1.0", layout, resizable=True)
 
 while True:
     event, values = window.read()
-    if event == sg.WINDOW_CLOSED:
+    if event == gui.WINDOW_CLOSED:
         exit() 
     if event == "Generate MAF Calibration":
-        try:
-            selected_log = values["-IN-"]
-        except:
-            sg.popup("Please select a log file!")
-        try:
-            CorrectiveFunction, x_data, y_data, x, y_fit, Maf_Cor_Table, Correcttion_List = Generate_Maf_cal(selected_log, headers_file_path, Maf_voltage_table)
-            window["-FORMULA-"].update(CorrectiveFunction)
-        except:
-            sg.popup("Error occured, please check the log file and try again, if the problem persists across multiple logs please contact the developer.")
+        if selected_log == '0':
+            gui.popup("Please select a log file!")
+        else:
+            try:
+                CorrectiveFunction, x_data, y_data, x, y_fit, Maf_Cor_Table, Correcttion_List = Generate_Maf_cal(selected_log, headers_file_path, Maf_voltage_table)
+                window["-FORMULA-"].update(CorrectiveFunction)
+            except:
+                gui.popup("Error occured, please check the log file and try again, if the problem persists across multiple logs please contact the developer.")
     if event == "Show Plot":
         try:
             draw_figure(x_data, y_data, x, y_fit)
         except:
-            sg.popup("Internal error, enter in a log first? log may be too long, if else please contact the developer.")
+            gui.popup("Internal error, enter in a log first? log may be too long, if else please contact the developer.")
     if event == "Copy to clipboard!":
         
         try:
@@ -56,4 +53,4 @@ while True:
             Unpack_Clipboard = ",".join(str(x) for x in Correcttion_List)
             pyperclip.copy(Unpack_Clipboard)
         except:
-            sg.popup("Unable to copy to the clipboard. Make sure you have generated a MAF calibration first.")
+            gui.popup("Unable to copy to the clipboard. Make sure you have generated a MAF calibration first.")
