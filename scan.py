@@ -38,7 +38,7 @@ def column_to_list(selected_log, index):
     return columndata
 
 def search_all_headers(filename):
-    line_array, headers = open_csv(filename)
+    do_not_use, headers = open_csv(filename)
     with open(filename, 'r') as header_dictionary_file:
         header_dictionary = csv.reader(header_dictionary_file)
     header_index_array = []

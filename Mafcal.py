@@ -1,13 +1,11 @@
 import csv
 import numpy as np 
-import matplotlib.pyplot as plt 
 from scipy.optimize import curve_fit
-import PySimpleGUI as sg
 from scan import open_csv, search_column, column_to_list, csv_to_list
 import math
 
 def Generate_Maf_cal(selected_log, headers_file_path, Maf_voltage_table):
-    line_array, headers = open_csv(selected_log)
+    do_not_use, headers = open_csv(selected_log)
     #opens the dictionary file, dictionary must contain all headers in txt seperated by newline.
     with open(headers_file_path, 'r') as header_dictionary_file:
         header_dictionary = csv.reader(header_dictionary_file)
@@ -53,7 +51,7 @@ def Generate_Maf_cal(selected_log, headers_file_path, Maf_voltage_table):
     y_data = np.array(MAF_COR)  # Replace with your actual y data
 
     # Perform curve fitting
-    popt, pcov = curve_fit(exponential_func, x_data, y_data)
+    popt, do_not_use = curve_fit(exponential_func, x_data, y_data)
 
     # Extract the optimized parameters
     a_opt, b_opt, c_opt = popt
@@ -79,8 +77,8 @@ def Generate_Maf_cal(selected_log, headers_file_path, Maf_voltage_table):
     for string in Volt_list:
         Volt_list_float.append(float(string))
     
-    Correcttion_List = [a_opt_float * math.exp(-b_opt_float * x) + c_opt_float for x in Volt_list_float]
-    print(Correcttion_List)
+    Correction_List = [a_opt_float * math.exp(-b_opt_float * x) + c_opt_float for x in Volt_list_float]
+    print(Correction_List)
 
         
-    return CorrectiveFunction, x_data, y_data, x, y_fit, Maf_Cor_Table, Correcttion_List
+    return CorrectiveFunction, x_data, y_data, x, y_fit, Maf_Cor_Table, Correction_List

@@ -36,7 +36,7 @@ while True:
         else:
             selected_log = values["-IN-"]
             try:
-                CorrectiveFunction, x_data, y_data, x, y_fit, Maf_Cor_Table, Correcttion_List = Generate_Maf_cal(selected_log, headers_file_path, Maf_voltage_table)
+                CorrectiveFunction, x_data, y_data, x, y_fit, Maf_Cor_Table, Correction_List = Generate_Maf_cal(selected_log, headers_file_path, Maf_voltage_table)
                 window["-FORMULA-"].update(CorrectiveFunction)
             except:
                 gui.popup("Error occured, please check the log file and try again, if the problem persists across multiple logs please contact the developer.")
@@ -48,10 +48,10 @@ while True:
     if event == "Copy to clipboard!":
         
         try:
-            for i in range(len(Correcttion_List)):
-                if Correcttion_List[i] < 0:
-                    Correcttion_List[i] = 0
-            Unpack_Clipboard = ",".join(str(x) for x in Correcttion_List)
+            for i in range(len(Correction_List)):
+                if Correction_List[i] < 0:
+                    Correction_List[i] = 0
+            Unpack_Clipboard = ",".join(str(x) for x in Correction_List)
             pyperclip.copy(Unpack_Clipboard)
         except:
             gui.popup("Unable to copy to the clipboard. Make sure you have generated a MAF calibration first.")
